@@ -1,1 +1,382 @@
-Hi Vasanthi please create ARM Templates for Windows Virtual Machine
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_AppCCPUI_name": {
+            "defaultValue": "AppCCPUI",
+            "type": "String"
+        },
+        "serverfarms_ASP_CCP_a6a6_externalid": {
+            "defaultValue": "/subscriptions/479266ef-b2aa-4dc8-8c29-07d76744d6bc/resourceGroups/CCP/providers/Microsoft.Web/serverfarms/ASP-CCP-a6a6",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('sites_AppCCPUI_name')]",
+            "location": "East US",
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "appccpui.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "appccpui.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_ASP_CCP_a6a6_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "vnetRouteAllEnabled": false,
+                "vnetImagePullEnabled": false,
+                "vnetContentShareEnabled": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": false,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 0
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "3B0F7DD5BB0337AD97CBE0D594A0DF75FB5DB9DDC5BE8CDF6AA485D25C1C7BC4",
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true,
+                "redundancyMode": "None",
+                "publicNetworkAccess": "Enabled",
+                "storageAccountRequired": false,
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/ftp')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/scm')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/web')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
+                "httpLoggingEnabled": false,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$AppCCPUI",
+                "scmType": "VSTSRM",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetRouteAllEnabled": false,
+                "vnetPrivatePortsCount": 0,
+                "publicNetworkAccess": "Enabled",
+                "cors": {
+                    "allowedOrigins": [
+                        "https://*.com",
+                        "http://*.com"
+                    ],
+                    "supportCredentials": true
+                },
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 2147483647,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.2",
+                "ftpsState": "FtpsOnly",
+                "preWarmedInstanceCount": 0,
+                "elasticWebAppScaleLimit": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 0,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/013551c8e2b24a75ad6d006365bee949')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"7c8a2e0e37fb60845ce9c571c76883740f9f66ff\",\"buildId\":\"4813\",\"releaseId\":\"204\",\"buildNumber\":\"4813\",\"releaseName\":\"Release-111\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-05-31T11:38:15.1974531Z",
+                "end_time": "2023-05-31T11:38:15.6974403Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/248d872189e84d4ebe821195827fcda9')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"b03573f21d0e73afbb49c4a53ce5e02517ac26ae\",\"buildId\":\"4966\",\"releaseId\":\"207\",\"buildNumber\":\"4966\",\"releaseName\":\"Release-114\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-06-09T08:34:28.8259367Z",
+                "end_time": "2023-06-09T08:34:29.3728089Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/2f74e4d5dfeb4694ba2685872ad4e513')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"7202c3bdf0acf48718bfde39a2082d6d2ebe9223\",\"buildId\":\"4988\",\"releaseId\":\"208\",\"buildNumber\":\"4988\",\"releaseName\":\"Release-115\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-06-12T14:07:26.6190155Z",
+                "end_time": "2023-06-12T14:07:27.0565365Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/34f3460683a84612806a34400bee152f')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"fa0ed9d4415ea410ef215f5bb41ccf55b8b3f766\",\"buildId\":\"4785\",\"releaseId\":\"203\",\"buildNumber\":\"4785\",\"releaseName\":\"Release-110\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-05-30T12:10:24.9098543Z",
+                "end_time": "2023-05-30T12:10:25.4098364Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/388546b4f92748dba604705e6de4eebd')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"8d1535443df68f5d592839917592c1bfb5c4cdff\",\"buildId\":\"4647\",\"releaseId\":\"200\",\"buildNumber\":\"4647\",\"releaseName\":\"Release-109\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-05-25T13:41:12.4373561Z",
+                "end_time": "2023-05-25T13:41:12.9685877Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/ae0deedf114d4ffd88851c57042610a7')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"fa032d93db80f1b80e0cf4c3ef5b3f2eb99c6e9c\",\"buildId\":\"4566\",\"releaseId\":\"199\",\"buildNumber\":\"4566\",\"releaseName\":\"Release-108\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-05-24T13:46:47.7523938Z",
+                "end_time": "2023-05-24T13:46:48.3471049Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/c9571a26f46d4fb4ab7ec3301f5525c9')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"078a14855d9be0032fa36b10f9964f36884e0759\",\"buildId\":\"4508\",\"releaseId\":\"198\",\"buildNumber\":\"4508\",\"releaseName\":\"Release-107\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-05-23T12:46:29.9868495Z",
+                "end_time": "2023-05-23T12:46:30.5008321Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/c984633a19e540d8855af59975be8aa4')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"c28018f3b44d3cbbf8336c117aaaacbd7ac480ac\",\"buildId\":\"4951\",\"releaseId\":\"205\",\"buildNumber\":\"4951\",\"releaseName\":\"Release-112\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-06-08T07:33:47.7712884Z",
+                "end_time": "2023-06-08T07:33:48.2869251Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/cf1fe573bafa4f88b7b8b7f03abb8b9d')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"7d3078c5d55c785c76ac84669bff06105882ac93\",\"buildId\":\"4994\",\"releaseId\":\"209\",\"buildNumber\":\"4994\",\"releaseName\":\"Release-116\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-06-13T05:14:46.1906973Z",
+                "end_time": "2023-06-13T05:14:46.6723337Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/df38433c93b244818b016f9ad682cac5')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "VSTS",
+                "message": "{\"type\":\"deployment\",\"commitId\":\"ab90c0b60cc8f304d95ac054b47c2d20b1ebfccb\",\"buildId\":\"4958\",\"releaseId\":\"206\",\"buildNumber\":\"4958\",\"releaseName\":\"Release-113\",\"repoProvider\":\"TfsGit\",\"repoName\":\"ccp\",\"collectionUrl\":\"https://pactera1us.visualstudio.com/\",\"teamProject\":\"fd61d478-8109-41eb-862a-2ab00faef999\",\"buildProjectUrl\":\"https://pactera1us.visualstudio.com/fd61d478-8109-41eb-862a-2ab00faef999\",\"repositoryUrl\":\"\",\"branch\":\"development\",\"teamProjectName\":\"CCP-MVP\",\"slotName\":\"production\"}",
+                "start_time": "2023-06-08T10:50:49.4996684Z",
+                "end_time": "2023-06-08T10:50:50.030976Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('sites_AppCCPUI_name'), '/', parameters('sites_AppCCPUI_name'), '.azurewebsites.net')]",
+            "location": "East US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_AppCCPUI_name'))]"
+            ],
+            "properties": {
+                "siteName": "AppCCPUI",
+                "hostNameType": "Verified"
+            }
+        }
+    ]
+}
