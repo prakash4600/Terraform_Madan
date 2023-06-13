@@ -1,1 +1,12 @@
-Hi Vasanthi please create ARM Templates for Windows Virtual Machine
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_AppCCPUI_name": {
+            "value": null
+        },
+        "serverfarms_ASP_CCP_a6a6_externalid": {
+            "value": null
+        }
+    }
+}
