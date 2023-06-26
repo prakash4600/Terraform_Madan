@@ -1,7 +1,3 @@
-# Provider configuration
-provider "azurerm" {
-  features {}
-}
 
 # Resource group
 resource "azurerm_resource_group" "example" {
