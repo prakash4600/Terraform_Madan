@@ -5,13 +5,13 @@ provider "azurerm" {
 
 # Resource group
 resource "azurerm_resource_group" "example" {
-  name     = "ccpterraform"
-  location = "West US"
+  name     = var.resource_group_name
+  location = var.location
 }
 
 # Virtual network
 resource "azurerm_virtual_network" "example" {
-  name                = "ccp_terraform_vnet"
+  name                = var.virtual_network_name
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
@@ -19,20 +19,20 @@ resource "azurerm_virtual_network" "example" {
 
 # Subnet within the virtual network
 resource "azurerm_subnet" "example" {
-  name                 = "ccp_terraform_subnet"
+  name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.example.name
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_cdn_frontdoor_profile" "example" {
-  name                = "example-profile"
+  name                = var.frontdoor_profile_name
   resource_group_name = azurerm_resource_group.example.name
   sku_name            = "Standard_AzureFrontDoor"
 }
 
 resource "azurerm_cdn_frontdoor_endpoint" "example" {
-  name                     = "example-endpoint"
+  name                     = var.frontdoor_endpoint_name
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.example.id
 
   tags = {
@@ -42,7 +42,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "example" {
 
 # Linux virtual machines
 resource "azurerm_virtual_machine" "example1" {
-  name                  = "ccp_terraform_vm1"
+  name                  = var.virtual_machine1_name
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
   vm_size               = "Standard_DS2_v2"
@@ -74,7 +74,7 @@ resource "azurerm_virtual_machine" "example1" {
 }
 
 resource "azurerm_virtual_machine" "example2" {
-  name                  = "ccp_terraform_vm2"
+  name                  = var.virtual_machine2_name
   location              = azurerm_resource_group.example.location
   resource_group_name   = azurerm_resource_group.example.name
   vm_size               = "Standard_DS2_v2"
@@ -107,7 +107,7 @@ resource "azurerm_virtual_machine" "example2" {
 
 # Network interfaces
 resource "azurerm_network_interface" "example1" {
-  name                      = "ccp_terraform_nic1"
+  name                      = var.network_interface1_name
   location                  = azurerm_resource_group.example.location
   resource_group_name       = azurerm_resource_group.example.name
 
@@ -119,7 +119,7 @@ resource "azurerm_network_interface" "example1" {
 }
 
 resource "azurerm_network_interface" "example2" {
-  name                      = "ccp_terraform_nic2"
+  name                      = var.network_interface2_name
   location                  = azurerm_resource_group.example.location
   resource_group_name       = azurerm_resource_group.example.name
 
@@ -129,13 +129,14 @@ resource "azurerm_network_interface" "example2" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
 resource "azurerm_mysql_server" "example" {
-  name                = "ccpterraformmysqlserver"
+  name                = var.mysql_server_name
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
-  administrator_login          = "mysqladminun"
-  administrator_login_password = "H@Sh1CoR3!"
+  administrator_login          = var.mysql_admin_username
+  administrator_login_password = var.mysql_admin_password
 
   sku_name   = "B_Gen5_2"
   storage_mb = 5120
@@ -152,7 +153,7 @@ resource "azurerm_mysql_server" "example" {
 
 # Network security group
 resource "azurerm_network_security_group" "example" {
-  name                = "ccp_terraform_nsg"
+  name                = var.network_security_group_name
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
