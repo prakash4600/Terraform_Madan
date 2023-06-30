@@ -9,7 +9,14 @@ variable "location" {
   type        = string
   default     = "Brazil South"
 }
-
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to resources."
+  default     = {
+    Project        = "CCP"
+    Environment = "QA"
+  }
+}
 variable "dns_zone_name" {
   description = "Name of the DNS zone"
   type        = string
