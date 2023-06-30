@@ -96,12 +96,6 @@ resource "azurerm_storage_container" "ccp" {
   storage_account_name  = azurerm_storage_account.ccp.name
   container_access_type = "private"
 
-#  tags = {
- #   Project     = "CCP"
-  #  Environment = "QA"
-#  }
-}
-
 #container registry
 
 resource "azurerm_container_registry" "acr" {
