@@ -3,6 +3,7 @@
 resource "azurerm_resource_group" "ccp" {
   name     = var.resource_group_name
   location = var.location
+  tags     = var.tags
 }
 
 #front door cdn
@@ -16,6 +17,7 @@ resource "azurerm_cdn_frontdoor_profile" "ccp" {
   name                = var.cdn_profile_name
   resource_group_name = azurerm_resource_group.ccp.name
   sku_name            = "Standard_AzureFrontDoor"
+  tags                = var.tags
 }
 
 resource "azurerm_cdn_frontdoor_custom_domain" "ccp" {
@@ -36,7 +38,7 @@ resource "azurerm_mysql_server" "ccp" {
   name                = var.mysql_server_name
   location            = azurerm_resource_group.ccp.location
   resource_group_name = azurerm_resource_group.ccp.name
-
+  tags                = var.tags
   administrator_login          = var.mysql_admin_login
   administrator_login_password = var.mysql_admin_password
 
@@ -59,6 +61,7 @@ resource "azurerm_service_plan" "ccp" {
   name                = var.service_plan_name
   resource_group_name = azurerm_resource_group.ccp.name
   location            = azurerm_resource_group.ccp.location
+  tags                = var.tags
   sku_name            = "P1v2"
   os_type             = "Windows"
 }
@@ -70,6 +73,7 @@ resource "azurerm_windows_web_app" "ccp" {
   resource_group_name = azurerm_resource_group.ccp.name
   location            = azurerm_service_plan.ccp.location
   service_plan_id     = azurerm_service_plan.ccp.id
+  tags                = var.tags
 
   site_config {}
 }
@@ -82,10 +86,7 @@ resource "azurerm_storage_account" "ccp" {
   location                 = azurerm_resource_group.ccp.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
-  tags = {
-    environment = "staging"
-  }
+  tags                     = var.tags
 }
 
 #blob container
@@ -94,6 +95,7 @@ resource "azurerm_storage_container" "ccp" {
   name                  = var.storage_container_name
   storage_account_name  = azurerm_storage_account.ccp.name
   container_access_type = "private"
+  tags                  = var.tags
 }
 
 #container registry
@@ -104,6 +106,7 @@ resource "azurerm_container_registry" "acr" {
   location            = azurerm_resource_group.ccp.location
   sku                 = "Premium"
   admin_enabled       = true
+  tags                = var.tags
 }
 
 #container apps
@@ -114,6 +117,7 @@ resource "azurerm_log_analytics_workspace" "ccp" {
   resource_group_name = azurerm_resource_group.ccp.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
+  tags                = var.tags
 }
 
 resource "azurerm_container_app_environment" "ccp" {
@@ -121,12 +125,14 @@ resource "azurerm_container_app_environment" "ccp" {
   location                   = azurerm_resource_group.ccp.location
   resource_group_name        = azurerm_resource_group.ccp.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.ccp.id
+  tags                       = var.tags
 }
 resource "azurerm_container_app" "ccp" {
   name                         = var.container_app_name
   container_app_environment_id = azurerm_container_app_environment.ccp.id
   resource_group_name          = azurerm_resource_group.ccp.name
   revision_mode                = "Single"
+  tags                         = var.tags
 
   template {
     container {
@@ -155,6 +161,7 @@ resource "azurerm_key_vault" "ccp" {
   name                        = var.key_vault_name
   location                    = azurerm_resource_group.ccp.location
   resource_group_name         = azurerm_resource_group.ccp.name
+  tags                        = var.tags
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
