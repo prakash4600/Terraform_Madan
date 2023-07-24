@@ -95,6 +95,7 @@ resource "azurerm_storage_container" "ccp" {
   name                  = var.storage_container_name
   storage_account_name  = azurerm_storage_account.ccp.name
   container_access_type = "private"
+}
 
 #container registry
 
