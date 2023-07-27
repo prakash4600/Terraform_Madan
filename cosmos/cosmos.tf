@@ -33,6 +33,6 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
 }
 
 output "cosmosdb_account_endpoint" {
-  value = azurerm_cosmosdb_account.cosmosdb.document_endpoint
+  value = azurerm_cosmosdb_account.cosmosdb.endpoint
 }
 
