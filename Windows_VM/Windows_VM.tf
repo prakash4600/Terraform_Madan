@@ -2,7 +2,7 @@ provider "azurerm" {
   features {}
 }
 resource "azurerm_virtual_network" "vnet" {
-  name                = "myvnet"
+  name                = "ccpmyvnet"
   resource_group_name = "My_Terraform_Practice"
   address_space       = ["10.0.0.0/16"]
 }
@@ -15,12 +15,12 @@ resource "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_network_interface" "nic" {
-  name                = "mynic"
+  name                = "ccpmynic"
   resource_group_name = "My_Terraform_Practice"
   location            = "East US"
 
   ip_configuration {
-    name                          = "myipconfig"
+    name                          = "ccpmyipconfig"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
