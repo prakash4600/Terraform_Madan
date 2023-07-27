@@ -4,14 +4,14 @@ provider "azurerm" {
 
 # Resource Group
 data "azurerm_resource_group" "example" {
-  name     = example-resource-group232
+  name     = "example-resource-group232"
   #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
 resource "azurerm_storage_account" "example" {
   name                     = "myfunctionappstorage"  # Update with a unique name
-  resource_group_name      = example-resource-group232
+  resource_group_name      = "example-resource-group232"
   location                 = "East US"
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -21,7 +21,7 @@ resource "azurerm_storage_account" "example" {
 resource "azurerm_function_app" "example" {
   name                      = "my-function-app"
   location                  = "East US"
-  resource_group_name       = example-resource-group232
+  resource_group_name       = "example-resource-group232"
   app_service_plan_id       = azurerm_app_service_plan.function_app_asp.id
   storage_connection_string = azurerm_storage_account.function_app_storage.primary_connection_string
 
@@ -45,7 +45,7 @@ resource "azurerm_function_app" "example" {
 resource "azurerm_app_service_plan" "example" {
   name                = "my-function-app-asp"
   location            = "East US"
-  resource_group_name = example-resource-group232
+  resource_group_name = "example-resource-group232"
   kind                = "FunctionApp"
   reserved            = true
 
