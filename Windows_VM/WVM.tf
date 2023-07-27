@@ -61,7 +61,7 @@ resource "azurerm_virtual_machine" "example" {
 
   os_profile {
     computer_name  = "examplevm"
-    admin_username = "admin"
+    admin_username = "vasanthi"
     admin_password = "Password@123"
   }
 
