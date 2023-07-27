@@ -10,28 +10,28 @@ data "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_virtual_network" "example" {
-  name                = "example-virtual-network"
+  name                = "example-virtual-network1"
   address_space       = ["10.0.0.0/16"]
   location            = "East US"
   resource_group_name = "example-resource-group232"
 }
 
 resource "azurerm_subnet" "example" {
-  name                 = "example-subnet"
+  name                 = "example-subnet1"
   resource_group_name  = "example-resource-group232"
   virtual_network_name = azurerm_virtual_network.example.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_public_ip" "example" {
-  name                = "example-public-ip"
+  name                = "example-public-ip1"
   location            = "East US"
   resource_group_name = "example-resource-group232"
   allocation_method   = "Dynamic"
 }
 
 resource "azurerm_network_interface" "example" {
-  name                = "example-nic"
+  name                = "example-nic1"
   location            = "East US"
   resource_group_name = "example-resource-group232"
 
@@ -44,7 +44,7 @@ resource "azurerm_network_interface" "example" {
 }
 
 resource "azurerm_virtual_machine" "example" {
-  name                  = "example-vm"
+  name                  = "example-vm1"
   location              = "East US"
   resource_group_name   = "example-resource-group232"
   network_interface_ids = [azurerm_network_interface.example.id]
