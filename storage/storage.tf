@@ -21,6 +21,12 @@ resource "azurerm_storage_account" "storage_account" {
   }
 }
 
+resource "azurerm_storage_container" "container" {
+  name                  = "mycontainer232"
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"  # Change this to "blob" if you want public read access
+}
+
 output "storage_account_name" {
   value = azurerm_storage_account.storage_account.name
 }
