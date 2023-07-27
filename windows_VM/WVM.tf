@@ -69,6 +69,13 @@ resource "azurerm_virtual_machine" "example" {
     provision_vm_agent = true
   }
 
+  storage_os_disk {
+    name              = "example-osdisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
   tags = {
     environment = "dev"
   }
