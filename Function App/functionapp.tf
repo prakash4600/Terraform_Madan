@@ -3,13 +3,13 @@ provider "azurerm" {
 }
 
 # Resource Group
-data "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "function_app_rg" {
   name     = "example-resource-group232"
   #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
-resource "azurerm_storage_account" "example" {
+resource "azurerm_storage_account" "function_app_storage" {
   name                     = "myfunctionappstorage"  # Update with a unique name
   resource_group_name      = "example-resource-group232"
   location                 = "East US"
@@ -18,12 +18,12 @@ resource "azurerm_storage_account" "example" {
 }
 
 # Function App
-resource "azurerm_function_app" "example" {
+resource "azurerm_function_app" "function_app" {
   name                      = "my-function-app"
   location                  = "East US"
   resource_group_name       = "example-resource-group232"
-  app_service_plan_id       = azurerm_app_service_plan.example.id
-  storage_connection_string = azurerm_storage_account.example.primary_connection_string
+  app_service_plan_id       = azurerm_app_service_plan.function_app_asp.id
+  storage_connection_string = azurerm_storage_account.function_app_storage.primary_connection_string
 
   version {
     function_app_version = "~3"
@@ -42,7 +42,7 @@ resource "azurerm_function_app" "example" {
 }
 
 # App Service Plan
-resource "azurerm_app_service_plan" "example" {
+resource "azurerm_app_service_plan" "function_app_asp" {
   name                = "my-function-app-asp"
   location            = "East US"
   resource_group_name = "example-resource-group232"
@@ -56,5 +56,5 @@ resource "azurerm_app_service_plan" "example" {
 }
 
 output "function_app_url" {
-  value = azurerm_function_app.example.default_hostname
+  value = azurerm_function_app.function_app.default_hostname
 }
