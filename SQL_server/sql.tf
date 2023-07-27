@@ -10,11 +10,11 @@ data "azurerm_resource_group" "example" {
 
 # SQL Server
 resource "azurerm_sql_server" "sql_server" {
-  name                         = "my-sql-server"
+  name                         = "my-sql-server232"
   resource_group_name          = "example-resource-group232"
   location                     = "East US"
   version                      = "12.0"  # Choose the SQL Server version (e.g., "12.0" for SQL Server 2019)
-  administrator_login          = "myadminuser"  # Replace with your desired admin username
+  administrator_login          = "useradmin"  # Replace with your desired admin username
   administrator_login_password = "MyP@ssw0rd!"  # Replace with your desired admin password
 
   tags = {
