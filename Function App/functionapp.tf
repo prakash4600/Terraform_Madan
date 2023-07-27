@@ -5,7 +5,7 @@ provider "azurerm" {
 # Resource Group
 data "azurerm_resource_group" "function_app_rg" {
   name     = example-resource-group232
-  location = "East US"  # Update with your desired location
+  #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
