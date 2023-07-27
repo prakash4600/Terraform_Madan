@@ -4,10 +4,10 @@ provider "azurerm" {
   features {}
 }
 
-#resource "azurerm_resource_group" "example" {
+data "azurerm_resource_group" "example" {
   #name     = "example-resource-group232"
   #location = "East US"
-#}
+}
 
 resource "azurerm_virtual_network" "example" {
   name                = "example-virtual-network"
