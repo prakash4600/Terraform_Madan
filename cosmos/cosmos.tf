@@ -7,7 +7,7 @@ provider "azurerm" {
 # Resource Group
 data "azurerm_resource_group" "example" {
   name     = "example-resource-group232"
-  location = "East US"  # Update with your desired location
+  #location = "East US"  # Update with your desired location
 }
 
 # Cosmos DB Account
