@@ -2,11 +2,6 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "cosmosdb" {
-  name     = "My_Terraform_Practice"
-  location = "East US"  # Change this to your desired Azure region
-}
-
 resource "azurerm_storage_account" "storage" {
   name                     = "cccpstorageaccount345"
   resource_group_name      = "My_Terraform_Practice"
@@ -14,6 +9,7 @@ resource "azurerm_storage_account" "storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
 
 resource "azurerm_storage_container" "container" {
   name                  = "mycontainer"
