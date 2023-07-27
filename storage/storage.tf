@@ -10,7 +10,7 @@ data "azurerm_resource_group" "example" {
 
 # Storage Account
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "mystorageaccount11"  # Update with a unique name
+  name                     = "mystorageaccount232"  # Update with a unique name
   resource_group_name      = "example-resource-group232"
   location                 = "East US"
   account_tier             = "Standard"
