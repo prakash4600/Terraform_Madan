@@ -6,7 +6,7 @@ provider "azurerm" {
 
 data "azurerm_resource_group" "example" {
   name     = "example-resource-group232"
-  location = "East US"
+  #location = "East US"
 }
 
 resource "azurerm_virtual_network" "example" {
