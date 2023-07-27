@@ -3,16 +3,16 @@ provider "azurerm" {
 }
 
 # Resource Group
-resource "azurerm_resource_group" "cosmosdb_rg" {
-  name     = "my-cosmosdb-rg"
-  location = "East US"  # Update with your desired location
+data "azurerm_resource_group" "example" {
+  name     = "example-resource-group232"
+  #location = "East US"  # Update with your desired location
 }
 
 # Cosmos DB Account
 resource "azurerm_cosmosdb_account" "cosmosdb" {
   name                = "my-cosmosdb-account"
-  location            = azurerm_resource_group.cosmosdb_rg.location
-  resource_group_name = azurerm_resource_group.cosmosdb_rg.name
+  location            = "East US"
+  resource_group_name = "example-resource-group232"
   offer_type          = "Standard"  # Change to desired offer type (e.g., "Standard", "Autoscale", "Serverless")
   kind                = "GlobalDocumentDB"
 
