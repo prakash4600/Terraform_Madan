@@ -3,14 +3,14 @@ provider "azurerm" {
 }
 
 # Resource Group
-resource "azurerm_resource_group" "function_app_rg" {
+resource "azurerm_resource_group" "example" {
   name     = "example-resource-group232"
   #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
 resource "azurerm_storage_account" "function_app_storage" {
-  name                     = "myfunctionappstorage"  # Update with a unique name
+  name                     = "myfunctionappstorage1"  # Update with a unique name
   resource_group_name      = "example-resource-group232"
   location                 = "East US"
   account_tier             = "Standard"
