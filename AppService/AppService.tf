@@ -6,7 +6,7 @@ provider "azurerm" {
 
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = "mrg4tetappserviceplan"
-  location            = "My_Terraform_Practice"
+  location            = "East US"
   resource_group_name = "My_Terraform_Practice"
 
   sku {
@@ -17,7 +17,7 @@ resource "azurerm_app_service_plan" "app_service_plan" {
 
 resource "azurerm_app_service" "app_service" {
   name                = "myappservic56574e"
-  location            = "My_Terraform_Practice"
+  location            = "East US"
   resource_group_name = "My_Terraform_Practice"
   app_service_plan_id = azurerm_app_service_plan.app_service_plan.id
 
