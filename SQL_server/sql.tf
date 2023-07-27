@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 # Resource Group
-resource "azurerm_resource_group" "sql_rg" {
+data "azurerm_resource_group" "example" {
   name     = "example-resource-group232"
   #location = "East US"  # Update with your desired location
 }
