@@ -5,6 +5,7 @@ provider "azurerm" {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "myvnetccp"
+  location            = "East US"
   resource_group_name = "My_Terraform_Practice"
   address_space       = ["10.0.0.0/16"]
 }
