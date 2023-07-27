@@ -5,7 +5,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-resource-group"
+  name     = "example-resource-group232"
   location = "East US"
 }
 
