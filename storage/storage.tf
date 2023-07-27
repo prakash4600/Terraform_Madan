@@ -3,16 +3,16 @@ provider "azurerm" {
 }
 
 # Resource Group
-resource "azurerm_resource_group" "storage_rg" {
-  name     = "my-storage-account-rg"
-  location = "East US"  # Update with your desired location
+data "azurerm_resource_group" "example" {
+  name     = "example-resource-group232"
+  #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "mystorageaccount"  # Update with a unique name
-  resource_group_name      = azurerm_resource_group.storage_rg.name
-  location                 = azurerm_resource_group.storage_rg.location
+  name                     = "mystorageaccount11"  # Update with a unique name
+  resource_group_name      = "example-resource-group232"
+  location                 = "East US"
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
