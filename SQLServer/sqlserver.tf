@@ -10,7 +10,7 @@ resource "azurerm_sql_server" "sqlserver" {
   version             = "12.0"  # Choose the desired SQL Server version
 
   administrator_login          = "sqladmin"
-  administrator_login_password = "MyP@ssw0rd!"  # Replace with your desired password
+  administrator_login_password = "MyP@ssw0rd@460"  # Replace with your desired password
 }
 
 resource "azurerm_sql_database" "sqldatabase" {
