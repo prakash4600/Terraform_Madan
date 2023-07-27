@@ -3,13 +3,13 @@ provider "azurerm" {
 }
 
 # Resource Group
-data "azurerm_resource_group" "function_app_rg" {
+data "azurerm_resource_group" "example" {
   name     = example-resource-group232
   #location = "East US"  # Update with your desired location
 }
 
 # Storage Account
-resource "azurerm_storage_account" "function_app_storage" {
+resource "azurerm_storage_account" "example" {
   name                     = "myfunctionappstorage"  # Update with a unique name
   resource_group_name      = example-resource-group232
   location                 = "East US"
@@ -18,7 +18,7 @@ resource "azurerm_storage_account" "function_app_storage" {
 }
 
 # Function App
-resource "azurerm_function_app" "function_app" {
+resource "azurerm_function_app" "example" {
   name                      = "my-function-app"
   location                  = "East US"
   resource_group_name       = example-resource-group232
@@ -42,7 +42,7 @@ resource "azurerm_function_app" "function_app" {
 }
 
 # App Service Plan
-resource "azurerm_app_service_plan" "function_app_asp" {
+resource "azurerm_app_service_plan" "example" {
   name                = "my-function-app-asp"
   location            = "East US"
   resource_group_name = example-resource-group232
