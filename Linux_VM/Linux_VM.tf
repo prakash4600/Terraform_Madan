@@ -29,7 +29,8 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "myccplinuxvm"
-  location              = "East US"  resource_group_name   = "My_Terraform_Practice"
+  location              = "East US" 
+  resource_group_name   = "My_Terraform_Practice"
   network_interface_ids = [azurerm_network_interface.nic.id]
 
   size                 = "Standard_DS1_v2"  # Change this to your desired VM size
