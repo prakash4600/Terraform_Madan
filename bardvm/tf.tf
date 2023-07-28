@@ -20,6 +20,7 @@ resource "azurerm_network_security_group" "example" {
     source_port_range = "*"
     destination_port_range = "3389"
     source_address_prefix = "*"
+    priority = 100
   }
 
   security_rule {
@@ -30,8 +31,10 @@ resource "azurerm_network_security_group" "example" {
     source_port_range = "*"
     destination_port_range = "80"
     source_address_prefix = "*"
+    priority = 110
   }
 }
+
 
 resource "azurerm_network_interface" "example" {
   name = "my-network-interface"
