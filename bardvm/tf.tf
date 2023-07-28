@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name = "my-resource-group"
+  name = "my-resource-group467"
   location = "westus"
 }
 
