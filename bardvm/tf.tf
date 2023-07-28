@@ -1,9 +1,5 @@
 provider "azurerm" {
-  version = "~> 2.17"
-  subscription_id = "Your Azure subscription ID"
-  client_id = "Your Azure client ID"
-  client_secret = "Your Azure client secret"
-  tenant_id = "Your Azure tenant ID"
+  features {}
 }
 
 resource "azurerm_resource_group" "example" {
@@ -71,7 +67,7 @@ resource "azurerm_virtual_machine" "example" {
   }
 
   os_profile {
-    computer_name = "my-virtual-machine"
+    computer_name = "my-virtual-machine4567"
     admin_username = "admin"
     admin_password = "Pa$$w0rd!"
   }
