@@ -70,7 +70,7 @@ resource "azurerm_storage_account" "example" {
   account_replication_type = "LRS"
 
 network_rules {
-    default_action             = "allow"
+    default_action             = "deny"
     virtual_network_subnet_ids = [azurerm_subnet.example.id]
 }
 }
