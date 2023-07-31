@@ -92,9 +92,5 @@ resource_group_name      ="${azurerm_resource_group.example.name}"
 location                 ="${azurerm_resource_group.example.location}"
 admin_enabled            ="true"
 sku                      = "Basic"
-network_rule_set{
-default_action="Deny"
 
-
-}
 }
