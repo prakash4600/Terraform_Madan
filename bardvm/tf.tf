@@ -3,75 +3,101 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name = "my-resource-group467"
-  location = "westus"
+  name     = "example-resources"
+  location = "West US"
 }
 
-resource "azurerm_network_security_group" "example" {
-  name = "my-network-security-group"
-  location = azurerm_resource_group.example.location
+resource "azurerm_virtual_network" "example" {
+  name                = "example-network"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-
-  security_rule {
-    name = "allow-rdp"
-    direction = "Inbound"
-    access = "Allow"
-    protocol = "Tcp"
-    source_port_range = "*"
-    destination_port_range = "3389"
-    source_address_prefix = "*"
-    priority = 100
-  }
-
-  security_rule {
-    name = "allow-http"
-    direction = "Inbound"
-    access = "Allow"
-    protocol = "Tcp"
-    source_port_range = "*"
-    destination_port_range = "80"
-    source_address_prefix = "*"
-    priority = 110
-  }
 }
 
+resource "azurerm_subnet" "example" {
+  name                 = "example-subnet"
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
 
 resource "azurerm_network_interface" "example" {
-  name = "my-network-interface"
-  location = azurerm_resource_group.example.location
+  name                = "example-nic"
+  location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
   ip_configuration {
-    name = "my-ip-configuration"
-    subnet_id = azurerm_subnet.example.id
-    private_ip_address = "10.0.0.10"
-    private_ip_allocation_method = "Static"
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.example.id
+    private_ip_address_allocation = "Dynamic"
+    private_ip_address_version    = "IPv4"
   }
-
-  network_security_group_id = azurerm_network_security_group.example.id
 }
 
-resource "azurerm_virtual_machine" "example" {
-  name = "my-virtual-machine"
-  location = azurerm_resource_group.example.location
+resource "azurerm_linux_virtual_machine" "example" {
+  name                = "example-vm"
+  location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
-  vm_size = "Standard_D2s_v3"
-
+  size         = "Standard_B1s"
+  admin_username     = "zxcvbn"
+  admin_password     = "P@ssw0rd!!"
+  
   network_interface_ids = [
     azurerm_network_interface.example.id,
   ]
 
-  storage_image_reference {
-     publisher = "MicrosoftWindowsServer"
-     offer = "WindowsServer"
-     sku = "2019-Datacenter"
-     version = "latest"
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = "30"
+    create_option        = "FromImage"
+    name                 = "${azurerm_linux_virtual_machine.example.name}-osdisk"
   }
 
-  os_profile {
-    computer_name = "my-virtual-machine4567"
-    admin_username = "admin"
-    admin_password = "Pa$$w0rd!"
-  }
+source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+}
+}
+
+resource "azurerm_storage_account" "example" {
+  name                     = "mnbvcxz"
+  resource_group_name      = azurerm_resource_group.example.name
+  location                 = azurerm_resource_group.example.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+network_rules {
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [azurerm_subnet.example.id]
+}
+
+
+resource "azurerm_storage_container" "example" {
+name                  ="weeeeee"
+storage_account_name   ="${azurerm_storage_account.example.name}"
+container_access_type ="private"
+
+depends_on=[
+azurerm_storage_account.example,
+]
+
+}
+
+resource "azurerm_container_registry" "example" {
+name                     ="qazwsx"
+resource_group_name      ="${azurerm_resource_group.example.name}"
+location                 ="${azurerm_resource_group.example.location}"
+admin_enabled            ="true"
+
+network_rule_set{
+default_action="Deny"
+
+virtual_network_subnet_ids=[
+"${azurerm_subnet.example.id}"
+]
+}
 }
