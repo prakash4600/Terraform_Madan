@@ -74,7 +74,7 @@ network_rules {
     default_action             = "Deny"
     virtual_network_subnet_ids = [azurerm_subnet.example.id]
 }
-
+}
 
 resource "azurerm_storage_container" "example" {
 name                  ="weeeeee"
