@@ -51,7 +51,7 @@ resource "azurerm_linux_virtual_machine" "example" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
     disk_size_gb         = "30"
-    name                 = "${azurerm_linux_virtual_machine.example.name}-osdisk"
+    name                 = "uytrdcf-osdisk"
   }
 
 source_image_reference {
