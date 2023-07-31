@@ -51,7 +51,6 @@ resource "azurerm_linux_virtual_machine" "example" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
     disk_size_gb         = "30"
-    create_option        = "FromImage"
     name                 = "${azurerm_linux_virtual_machine.example.name}-osdisk"
   }
 
@@ -92,12 +91,10 @@ name                     ="qazwsx"
 resource_group_name      ="${azurerm_resource_group.example.name}"
 location                 ="${azurerm_resource_group.example.location}"
 admin_enabled            ="true"
-
+sku                      = ""
 network_rule_set{
 default_action="Deny"
 
-virtual_network_subnet_ids=[
-"${azurerm_subnet.example.id}"
-]
+
 }
 }
