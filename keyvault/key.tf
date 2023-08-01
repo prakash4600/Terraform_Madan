@@ -3,24 +3,43 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources22"
-  location = "West US"
+  name     = "example-resource-group1222222222"
+  location = "eastus"
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "example-keyvault22"
-  location                    = azurerm_resource_group.example.location
-  resource_group_name         = azurerm_resource_group.example.name
-  sku_name                    = "standard"   # Specify the SKU name (e.g., "standard", "premium")
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  name                = "example-keyvault12334565"
+  location            = "eastus"
+  resource_group_name = azurerm_resource_group.example.name
+
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    key_permissions = [
+      "get",
+      "create",
+      "delete",
+      "list",
+      "update",
+      "import",
+      "backup",
+      "restore",
+    ]
+
+    secret_permissions = [
+      "get",
+      "list",
+      "set",
+      "delete",
+      "backup",
+      "restore",
+    ]
+  }
 }
 
 data "azurerm_client_config" "current" {}
 
-output "key_vault_id" {
-  value = azurerm_key_vault.example.id
-}
 
-output "key_vault_uri" {
-  value = azurerm_key_vault.example.vault_uri
-}
