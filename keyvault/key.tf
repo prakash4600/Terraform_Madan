@@ -11,8 +11,7 @@ resource "azurerm_key_vault" "example" {
   name                        = "example-keyvault"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
-  enabled_for_disk_encryption = true
-  enabled_for_deployments     = true
+  sku_name                    = "standard"   # Specify the SKU name (e.g., "standard", "premium")
   tenant_id                   = data.azurerm_client_config.current.tenant_id
 }
 
