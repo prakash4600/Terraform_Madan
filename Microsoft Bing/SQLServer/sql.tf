@@ -28,6 +28,7 @@ resource "azurerm_sql_server" "example" {
 resource "azurerm_sql_database" "example" {
   name                = "example-sql-database"
   resource_group_name = azurerm_resource_group.example.name
+  location                     = azurerm_resource_group.example.location
   server_name         = azurerm_sql_server.example.name
   edition             = "Standard"
   collation           = "SQL_Latin1_General_CP1_CI_AS"
