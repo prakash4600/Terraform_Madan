@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "example" {
   name                = "example-keyvault12334565"
   location            = "eastus"
   resource_group_name = azurerm_resource_group.example.name
-
+  tenant_id = data.azurerm_client_config.current.tenant_id
   sku_name = "standard"
 
   access_policy {
@@ -38,8 +38,8 @@ resource "azurerm_key_vault" "example" {
       "restore",
     ]
   }
+
+  
 }
 
 data "azurerm_client_config" "current" {}
-
-
