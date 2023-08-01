@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-wefrwefresources"
+  name     = "example-resources"
   location = "West Europe"
 }
 
@@ -47,6 +47,12 @@ resource "azurerm_windows_virtual_machine" "example" {
     version   = "latest"
   }
 
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    name                 = "${azurerm_windows_virtual_machine.example.name}-osdisk"
+#    create_option        = "FromImage"
+  }
 
   admin_username      = "Bhanu"
   admin_password      = "Praskdhaiuduiq9gf@234"
