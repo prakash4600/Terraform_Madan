@@ -77,12 +77,12 @@ resource "azurerm_linux_virtual_machine" "example" {
    }
 
    source_image_reference {
-     publisher         ="Canonical",
-     offer             ="UbuntuServer",
-     sku               ="18.04-LTS",
-     version           ="latest",
+     publisher         ="Canonical"
+     offer             ="UbuntuServer"
+     sku               ="18.04-LTS"
+     version           ="latest"
    }
 
-   admin_username             ="azureuser",
+   admin_username             ="azureuser"
    admin_password             ="Password@46000"
 }
