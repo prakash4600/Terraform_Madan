@@ -49,7 +49,7 @@ resource "azurerm_windows_virtual_machine" "example" {
 
   os_disk {
     caching              = "ReadWrite"
-#    storage_account_type = "Standard_LRS"
+storage_account_type = "Standard_LRS"
     name                 = "${azurerm_windows_virtual_machine.example.name}-osdisk"
 #    create_option        = "FromImage"
   }
