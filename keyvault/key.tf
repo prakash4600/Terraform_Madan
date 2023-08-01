@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "example" {
 }
 
 resource "azurerm_key_vault" "example" {
-  name                        = "example-keyvault"
+  name                        = "example-keyvault22"
   location                    = azurerm_resource_group.example.location
   resource_group_name         = azurerm_resource_group.example.name
   sku_name                    = "standard"   # Specify the SKU name (e.g., "standard", "premium")
